@@ -1,0 +1,34 @@
+[
+  {
+    "id": "inspection",
+    "title": "Home Inspection",
+    "iconName": "Home",
+    "image": "/assets/images/service-inspection.png",
+    "desc": "Monthly/weekly checks, photo reports, and safety inspections to ensure your property remains secure.",
+    "features": ["Interior & Exterior Check", "Moisture & Pest Detection", "Digital Photo Report"]
+  },
+  {
+    "id": "vendor",
+    "title": "Vendor Coordination",
+    "iconName": "Briefcase",
+    "image": "/assets/images/service-vendor.png",
+    "desc": "We manage local plumbers, electricians, and cleaners so you don't have to chase them from abroad.",
+    "features": ["Verified Professionals", "Supervised Work", "Transparent Quotes"]
+  },
+  {
+    "id": "bills",
+    "title": "Bill & Document Support",
+    "iconName": "FileText",
+    "image": "/assets/images/service-vendor.png",
+    "desc": "Never miss a utility payment. We handle meter readings, bill payments, and official mail forwarding.",
+    "features": ["Utility Monitoring", "Payment Reminders", "Document Pickup"]
+  },
+  {
+    "id": "emergency",
+    "title": "Emergency Support",
+    "iconName": "AlertCircle",
+    "image": "/assets/images/service-emergency.jpg",
+    "desc": "Immediate on-site visits during storms, water leaks, or suspicious activity reports.",
+    "features": ["24/7 Response", "Storm Damage Check", "Security Liaison"]
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "name": "CareLite",
+    "price": "₹1,999",
+    "period": "/ month",
+    "desc": "Essential monthly checks for locked homes (Perfect for vacant properties)",
+    "features": ["Monthly Inspection", "Photo/Video Report", "Utility Meter Check", "Mail Collection","Property airing & cleaning","Utility bill tracking"],
+    "highlight": false
+  },
+  {
+    "name": "CarePlus",
+    "price": "₹4,499",
+    "period": "/ month",
+    "desc": "Weekly attention for occupied or high-value homes.",
+    "features": ["Weekly Inspections & Visits", "Vendor Coordination", "Priority Support", "Bill Management", "Minor home repair Supervision", "Grocery & medicine support"],
+    "highlight": true
+  },
+  {
+    "name": "CareElite",
+    "price": "₹6,999",
+    "period": "/ month",
+    "desc": "Complete concierge service for total peace of mind (Premium Comprehensive Family Care)",
+    "features": ["Unlimited Visits", "Emergency Response", "Full Concierge", "Deep Cleaning (1x/yr)", "Dedicated Manager", "Companionship time","Health check reminders", "Video call assistance","24/7 emergency hotline","Real-time updates"],
+    "highlight": false
+  }
+]

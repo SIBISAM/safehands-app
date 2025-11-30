@@ -1,0 +1,23 @@
+[
+  {
+    "id": "t1",
+    "name": "Rahul Mathew",
+    "role": "Head of Operations",
+    "image": "/assets/images/team-1.jpg",
+    "bio": "Former civil engineer with 10 years of experience in facility management. He ensures every inspection checklist is followed rigorously."
+  },
+  {
+    "id": "t2",
+    "name": "Anjali Nair",
+    "role": "Client Relations Lead",
+    "image": "/assets/images/team-2.jpg",
+    "bio": "The friendly voice on the other end of the phone. Anjali coordinates between NRI families and our field staff to ensure smooth communication."
+  },
+  {
+    "id": "t3",
+    "name": "Thomas John",
+    "role": "Senior Field Manager",
+    "image": "/assets/images/team-3.jpg",
+    "bio": "A trusted local presence in Pathanamthitta for over 20 years. Thomas handles emergency visits and complex vendor negotiations."
+  }
+]

@@ -1,0 +1,26 @@
+{
+  "name": "SafeHands",
+  "tagline": "Live peacefully abroad. Your home is in SafeHands.",
+  "colors": {
+    "primary": "from-slate-900 to-slate-800",
+    "accent": "text-teal-600",
+    "bg": "bg-[#FDFBF7]",
+    "darkBg": "dark:bg-slate-950"
+  },
+  "contact": {
+    "phone": "+91 90486 22682",
+    "email": "hellosafehands@gmail.com",
+    "address": "Pathanamthitta, Kerala, India - 689645"
+  },
+  "assets": {
+    "logo": "../assets/logos/logo.png",
+    "heroImage": "../assets/images/hero-bg.jpg",
+    "aboutImage": "../assets/images/about-team.jpg"
+  },
+  "socials": [
+    { "platform": "Facebook", "label": "FB" },
+    { "platform": "Instagram", "label": "IG" },
+    { "platform": "WhatsApp", "label": "WA" }
+  ],
+  "footerText": "© 2025 SafeHands Care. All rights reserved."
+}

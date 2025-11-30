@@ -1,74 +1,73 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Menu, X, Moon, Sun, Shield, Home, Clock, 
-  Phone, Mail, MapPin, User, FileText, Check, 
-  Upload, Image as ImageIcon, LogOut, Star, 
-  Briefcase, Download, DollarSign, AlertCircle, PenTool,
-  Heart
-} from 'lucide-react';
+import * as Icons from 'lucide-react'; 
 
-// --- BRAND CONSTANTS & MOCK DATA ---
+// --- CONFIGURATION DATA ---
+// For your local VS Code setup, you can move these objects into 
+// separate files (e.g., content/brand.json) and import them.
 
-const BRAND = {
+const brandData = {
   name: "SafeHands",
   tagline: "Live peacefully abroad. Your home is in SafeHands.",
   colors: {
-    primary: "from-slate-900 to-slate-800", // Deep Navy
-    accent: "text-teal-600", // Teal/Cyan
-    bg: "bg-[#FDFBF7]", // Warm Cream
+    primary: "from-slate-900 to-slate-800",
+    accent: "text-teal-600",
+    bg: "bg-[#FDFBF7]",
     darkBg: "dark:bg-slate-950"
   },
   contact: {
-    phone: "+91 98470 XXXXX",
-    email: "care@safehandsnow.com",
+    phone: "+91 90486 22682",
+    email: "hellosafehands@gmail.com",
     address: "Pathanamthitta, Kerala, India - 689645"
   },
   assets: {
-    logo: "/assets/logos/logo.png", // Make sure this file exists in public/assets/logos/
-    heroImage: "/assets/images/hero-bg.jpg",
-    aboutImage: "/assets/images/about-team.jpg"
-  }
+    logo: "../assets/logos/logo.png",
+    footlogo: "../assets/logos/foot_logo.png",
+    heroImage: "/..assets/images/hero-bg.png",
+    aboutImage: "../assets/images/about-team.png"
+  },
+  socials: [
+    { platform: "Facebook", label: "FB" },
+    { platform: "Instagram", label: "IG" },
+    { platform: "WhatsApp", label: "WA" }
+  ],
+  footerText: "© 2025 SafeHands Property Care. All rights reserved."
 };
 
-const SERVICES = [
+const servicesData = [
   {
-    id: 'inspection',
+    id: "inspection",
     title: "Home Inspection",
-    // We can use an image here instead of an icon if you prefer, 
-    // but icons often look cleaner on small cards. 
-    // Let's keep icons for the main menu but use images for the details page if we expanded it.
-    icon: <Home className="w-8 h-8 text-teal-600" />, 
-    image: "/assets/images/service-inspection.png",
+    iconName: "Home",
+    image: "/assets/images/service-inspection.jpg",
     desc: "Monthly/weekly checks, photo reports, and safety inspections to ensure your property remains secure.",
     features: ["Interior & Exterior Check", "Moisture & Pest Detection", "Digital Photo Report"]
   },
   {
-    id: 'vendor',
+    id: "vendor",
     title: "Vendor Coordination",
-    icon: <Briefcase className="w-8 h-8 text-teal-600" />,
+    iconName: "Briefcase",
     image: "/assets/images/service-vendor.jpg",
     desc: "We manage local plumbers, electricians, and cleaners so you don't have to chase them from abroad.",
     features: ["Verified Professionals", "Supervised Work", "Transparent Quotes"]
   },
   {
-    id: 'bills',
+    id: "bills",
     title: "Bill & Document Support",
-    icon: <FileText className="w-8 h-8 text-teal-600" />,
+    iconName: "FileText",
     desc: "Never miss a utility payment. We handle meter readings, bill payments, and official mail forwarding.",
-    image: "/assets/images/service-vendor.png",
     features: ["Utility Monitoring", "Payment Reminders", "Document Pickup"]
   },
   {
-    id: 'emergency',
+    id: "emergency",
     title: "Emergency Support",
-    icon: <AlertCircle className="w-8 h-8 text-teal-600" />,
+    iconName: "AlertCircle",
     image: "/assets/images/service-emergency.jpg",
     desc: "Immediate on-site visits during storms, water leaks, or suspicious activity reports.",
     features: ["24/7 Response", "Storm Damage Check", "Security Liaison"]
   }
 ];
 
-const PRICING = [
+const pricingData = [
   {
     name: "CareLite",
     price: "₹1,999",
@@ -79,7 +78,7 @@ const PRICING = [
   },
   {
     name: "CarePlus",
-    price: "₹3,999",
+    price: "₹4,999",
     period: "/ month",
     desc: "Weekly attention for occupied or high-value homes.",
     features: ["Weekly Inspections", "Vendor Coordination", "Priority Support", "Bill Management", "Minor Repair Supervision"],
@@ -95,10 +94,48 @@ const PRICING = [
   }
 ];
 
-const TESTIMONIALS = [
-  { name: "Mathew Thomas", location: "Dubai, UAE", text: "SafeHands has been a blessing. I used to worry about my parents' house in Ranni every monsoon. Now I get a full report on WhatsApp." },
-  { name: "Sarah George", location: "London, UK", text: "Professional and transparent. The photos they send are detailed, and they handled my plumbing repairs perfectly." }
+const testimonialsData = [
+  {
+    name: "Mathew Thomas",
+    location: "Dubai, UAE",
+    text: "SafeHands has been a blessing. I used to worry about my parents' house in Ranni every monsoon. Now I get a full report on WhatsApp."
+  },
+  {
+    name: "Sarah George",
+    location: "London, UK",
+    text: "Professional and transparent. The photos they send are detailed, and they handled my plumbing repairs perfectly."
+  }
 ];
+
+const teamData = [
+  {
+    id: "t1",
+    name: "Rahul Mathew",
+    role: "Head of Operations",
+    image: "/assets/images/team-1.jpg",
+    bio: "Former civil engineer with 10 years of experience in facility management. He ensures every inspection checklist is followed rigorously."
+  },
+  {
+    id: "t2",
+    name: "Anjali Nair",
+    role: "Client Relations Lead",
+    image: "/assets/images/team-2.jpg",
+    bio: "The friendly voice on the other end of the phone. Anjali coordinates between NRI families and our field staff to ensure smooth communication."
+  },
+  {
+    id: "t3",
+    name: "Thomas John",
+    "role": "Senior Field Manager",
+    image: "/assets/images/team-3.jpg",
+    bio: "A trusted local presence in Pathanamthitta for over 20 years. Thomas handles emergency visits and complex vendor negotiations."
+  }
+];
+
+// --- HELPER: Icon Mapper ---
+const getIcon = (iconName, className) => {
+  const IconComponent = Icons[iconName];
+  return IconComponent ? <IconComponent className={className} /> : <Icons.HelpCircle className={className} />;
+};
 
 // --- COMPONENTS ---
 
@@ -132,20 +169,20 @@ const Card = ({ children, className = "" }) => (
 
 const HomePage = ({ navigate }) => (
   <>
-    {/* Hero */}
+    {/* Hero Section */}
     <div className="relative overflow-hidden bg-[#FDFBF7] dark:bg-slate-950 pt-32 pb-20 px-4 md:px-8">
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         <div className="space-y-6 animate-fade-in-up z-10 relative">
           <div className="inline-flex items-center space-x-2 bg-teal-50 dark:bg-teal-900/30 px-3 py-1 rounded-full">
-            <Shield className="w-4 h-4 text-teal-600" />
+            <Icons.Shield className="w-4 h-4 text-teal-600" />
             <span className="text-teal-700 dark:text-teal-400 text-sm font-semibold tracking-wide">TRUSTED IN PATHANAMTHITTA</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-white leading-tight">
             Live peacefully abroad. <br/>
-            <span className="text-teal-600">Your home is in SafeHands.</span>
+            <span className="text-teal-600">Your home is in {brandData.name}.</span>
           </h1>
           <p className="text-lg text-slate-600 dark:text-slate-300 max-w-lg leading-relaxed">
-            We act as your local representative in Kerala, managing your property, coordinating repairs, and caring for your loved ones so you never have to worry.
+            {brandData.tagline} We act as your local representative in Kerala, managing your property, coordinating repairs, and caring for your loved ones.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <Button onClick={() => navigate('services')}>View Services</Button>
@@ -153,30 +190,28 @@ const HomePage = ({ navigate }) => (
           </div>
         </div>
         
-        {/* Visual Side - Using one of your provided posters/images here would be great */}
+        {/* Visual Side */}
         <div className="relative z-10">
-           {/* Fallback to code visual if image missing, else show image */}
            <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-slate-800 transform rotate-2 hover:rotate-0 transition-transform duration-500">
               <img 
-                src={BRAND.assets.heroImage} 
-                alt="Happy family backed by SafeHands" 
+                src={brandData.assets.heroImage} 
+                alt="SafeHands Hero" 
                 className="w-full h-auto object-cover"
                 onError={(e) => {
-                  e.target.onerror = null; 
-                  e.target.style.display = 'none'; // Hide if missing
-                  e.target.nextSibling.style.display = 'block'; // Show fallback
+                  e.target.style.display = 'none'; 
+                  e.target.nextSibling.style.display = 'block'; 
                 }}
               />
-              {/* Fallback Visual (Hidden by default if image loads) */}
+              {/* Fallback Visual (shown if image fails to load) */}
               <div className="hidden bg-white dark:bg-slate-800 p-6">
                 <div className="grid grid-cols-2 gap-4">
                    <div className="bg-slate-50 dark:bg-slate-700 p-4 rounded-xl">
-                      <Check className="w-8 h-8 text-teal-500 mb-2" />
+                      <Icons.Check className="w-8 h-8 text-teal-500 mb-2" />
                       <div className="text-2xl font-bold text-slate-900 dark:text-white">100%</div>
-                      <div className="text-sm text-slate-500 dark:text-slate-400">Verified Visits</div>
+                      <div className="text-sm text-slate-500 dark:text-slate-400">Verified</div>
                    </div>
                    <div className="bg-slate-50 dark:bg-slate-700 p-4 rounded-xl">
-                      <Clock className="w-8 h-8 text-teal-500 mb-2" />
+                      <Icons.Clock className="w-8 h-8 text-teal-500 mb-2" />
                       <div className="text-2xl font-bold text-slate-900 dark:text-white">24/7</div>
                       <div className="text-sm text-slate-500 dark:text-slate-400">Support</div>
                    </div>
@@ -184,27 +219,27 @@ const HomePage = ({ navigate }) => (
               </div>
            </div>
            
-           {/* Decorative blobs behind image */}
+           {/* Decorative blobs */}
            <div className="absolute top-0 right-0 w-72 h-72 bg-teal-200 dark:bg-teal-900 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob -z-10"></div>
            <div className="absolute -bottom-8 -left-8 w-72 h-72 bg-blue-200 dark:bg-blue-900 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000 -z-10"></div>
         </div>
       </div>
     </div>
 
-    {/* Features */}
+    {/* Features Section */}
     <Section className="bg-white dark:bg-slate-900">
       <div className="text-center mb-16">
-        <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Why Choose SafeHands?</h2>
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Why Choose {brandData.name}?</h2>
         <p className="text-slate-600 dark:text-slate-400 mt-4">We combine corporate professionalism with family-like care.</p>
       </div>
       <div className="grid md:grid-cols-3 gap-8">
         {[
-          { icon: Camera, title: "Transparent Reporting", text: "Every visit is documented with photos and videos uploaded to your dashboard." },
-          { icon: Heart, title: "Emotional Care", text: "We don't just fix taps. We spend time with your elderly parents." },
-          { icon: Shield, title: "Zero Hidden Costs", text: "No commission on vendor bills. You pay exactly what the vendor charges." }
+          { icon: "Camera", title: "Transparent Reporting", text: "Every visit is documented with photos and videos uploaded to your dashboard." },
+          { icon: "Heart", title: "Emotional Care", text: "We don't just fix taps. We spend time with your elderly parents." },
+          { icon: "Shield", title: "Zero Hidden Costs", text: "No commission on vendor bills. You pay exactly what the vendor charges." }
         ].map((f, i) => (
           <Card key={i} className="hover:border-teal-500 transition-all cursor-default">
-            <f.icon className="w-10 h-10 text-teal-600 mb-4" />
+            {getIcon(f.icon, "w-10 h-10 text-teal-600 mb-4")}
             <h3 className="text-xl font-semibold mb-2 text-slate-900 dark:text-white">{f.title}</h3>
             <p className="text-slate-600 dark:text-slate-400">{f.text}</p>
           </Card>
@@ -212,14 +247,32 @@ const HomePage = ({ navigate }) => (
       </div>
     </Section>
 
-    {/* CTA */}
+    {/* Testimonials Section */}
+    <Section className="bg-teal-50 dark:bg-slate-800/50">
+       <h2 className="text-3xl font-bold text-center text-slate-900 dark:text-white mb-12">Trusted by Global Malayalis</h2>
+       <div className="grid md:grid-cols-2 gap-6">
+         {testimonialsData.map((t, i) => (
+           <Card key={i} className="flex flex-col gap-4">
+             <div className="flex text-yellow-400">
+               {[...Array(5)].map((_, i) => <Icons.Star key={i} className="w-4 h-4 fill-current" />)}
+             </div>
+             <p className="text-slate-700 dark:text-slate-300 italic">"{t.text}"</p>
+             <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-700">
+               <div className="font-bold text-slate-900 dark:text-white">{t.name}</div>
+               <div className="text-sm text-teal-600">{t.location}</div>
+             </div>
+           </Card>
+         ))}
+       </div>
+    </Section>
+
+    {/* CTA Section */}
     <Section>
       <div className="bg-slate-900 dark:bg-teal-900 rounded-3xl p-12 text-center text-white shadow-2xl relative overflow-hidden">
-        {/* Background texture from image if available */}
         <div className="absolute inset-0 opacity-10 bg-[url('/assets/images/service-inspection.jpg')] bg-cover bg-center"></div>
         <div className="relative z-10">
           <h2 className="text-3xl font-bold mb-6">Ready to secure your home?</h2>
-          <p className="text-slate-300 mb-8 max-w-2xl mx-auto">Join 200+ families in Pathanamthitta who trust SafeHands. Get your free assessment today.</p>
+          <p className="text-slate-300 mb-8 max-w-2xl mx-auto">Join 200+ families in Pathanamthitta who trust {brandData.name}. Get your free assessment today.</p>
           <Button variant="primary" className="bg-white text-slate-900 hover:bg-teal-50 dark:bg-white dark:text-teal-900" onClick={() => navigate('contact')}>
             Get Free Quote
           </Button>
@@ -236,9 +289,8 @@ const ServicesPage = ({ navigate }) => (
       <p className="text-slate-600 dark:text-slate-300">Detailed care plans tailored for vacant homes and elderly parents.</p>
     </div>
     <div className="grid md:grid-cols-2 gap-8">
-      {SERVICES.map((service) => (
+      {servicesData.map((service) => (
         <Card key={service.id} className="flex flex-col overflow-hidden p-0">
-          {/* Service Image Header */}
           {service.image && (
             <div className="h-48 w-full overflow-hidden">
               <img src={service.image} alt={service.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" 
@@ -248,7 +300,8 @@ const ServicesPage = ({ navigate }) => (
           <div className="p-6 flex flex-col flex-grow">
             <div className="flex items-start justify-between mb-4">
               <div className="p-3 bg-teal-50 dark:bg-teal-900/20 rounded-lg">
-                {service.icon}
+                {/* Dynamically render icon from JSON string name */}
+                {getIcon(service.iconName, "w-8 h-8 text-teal-600")}
               </div>
               <Button variant="ghost" className="text-sm" onClick={() => navigate('contact')}>Inquire</Button>
             </div>
@@ -257,7 +310,7 @@ const ServicesPage = ({ navigate }) => (
             <ul className="space-y-3 mt-auto">
               {service.features.map((f, i) => (
                 <li key={i} className="flex items-center text-slate-700 dark:text-slate-300">
-                  <Check className="w-5 h-5 text-teal-500 mr-3" />
+                  <Icons.Check className="w-5 h-5 text-teal-500 mr-3" />
                   {f}
                 </li>
               ))}
@@ -269,8 +322,6 @@ const ServicesPage = ({ navigate }) => (
   </Section>
 );
 
-// ... (PricingPage, AboutPage, ContactPage, Dashboard, LoginPage logic remains largely same, just imported below for completeness)
-
 const PricingPage = ({ navigate }) => (
   <Section>
     <div className="text-center mb-16">
@@ -278,7 +329,7 @@ const PricingPage = ({ navigate }) => (
       <p className="text-slate-600 dark:text-slate-400 mt-4">Choose a plan that fits your needs. No hidden fees.</p>
     </div>
     <div className="grid md:grid-cols-3 gap-8">
-      {PRICING.map((plan, i) => (
+      {pricingData.map((plan, i) => (
         <div key={i} className={`relative p-8 rounded-2xl border ${plan.highlight ? 'border-teal-500 ring-2 ring-teal-500/20 bg-white dark:bg-slate-800' : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50'}`}>
           {plan.highlight && (
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-teal-600 text-white px-4 py-1 rounded-full text-sm font-bold tracking-wide">
@@ -297,7 +348,7 @@ const PricingPage = ({ navigate }) => (
           <ul className="space-y-4">
             {plan.features.map((feature, idx) => (
               <li key={idx} className="flex items-start text-sm text-slate-700 dark:text-slate-300">
-                <Check className="w-4 h-4 text-teal-500 mr-3 mt-0.5 shrink-0" />
+                <Icons.Check className="w-4 h-4 text-teal-500 mr-3 mt-0.5 shrink-0" />
                 {feature}
               </li>
             ))}
@@ -314,20 +365,20 @@ const AboutPage = () => {
       <div className="max-w-4xl mx-auto">
         <div className="grid md:grid-cols-2 gap-12 items-center mb-12">
            <div>
-             <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-6">About SafeHands</h1>
+             <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-6">About {brandData.name}</h1>
              <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-6">
-               SafeHands was born from a simple realization: Distance creates anxiety. Whether it's an aging parent living alone in Ranni or a locked house in Kozhencherry, NRIs constantly worry about the "what ifs."
+               {brandData.name} was born from a simple realization: Distance creates anxiety. Whether it's an aging parent living alone in Ranni or a locked house in Kozhencherry, NRIs constantly worry about the "what ifs."
              </p>
              <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
                We are not just a maintenance company. We are your proxy family. Our team of uniformed, vetted Field Managers brings corporate professionalism to domestic care.
              </p>
            </div>
            <div className="rounded-2xl overflow-hidden shadow-lg rotate-3 hover:rotate-0 transition-transform duration-500">
-             <img src={BRAND.assets.aboutImage} alt="Our Team" className="w-full h-auto" onError={(e) => e.target.style.display = 'none'} />
+             <img src={brandData.assets.aboutImage} alt="Our Team" className="w-full h-auto" onError={(e) => e.target.style.display = 'none'} />
            </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
+        <div className="grid md:grid-cols-2 gap-8 mb-20">
           <Card className="bg-teal-50 dark:bg-slate-800 border-none">
             <h3 className="text-xl font-bold mb-4 text-slate-900 dark:text-white">Our Mission</h3>
             <p className="text-slate-600 dark:text-slate-300">To deliver unwavering support to NRI families by delivering trusted home maintenance and compassionate elder assistance.</p>
@@ -337,12 +388,35 @@ const AboutPage = () => {
              <p className="text-slate-600 dark:text-slate-300">To become Kerala’s most trusted family support partner, recognized for restoring the traditional warmth of home care through reliability.</p>
           </Card>
         </div>
+
+        {/* --- TEAM SECTION --- */}
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-12">Meet Our Team</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {teamData.map((member) => (
+              <div key={member.id} className="flex flex-col items-center">
+                <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-teal-500 shadow-lg mb-6">
+                  <img 
+                    src={member.image} 
+                    alt={member.name} 
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.src = "https://ui-avatars.com/api/?name=" + member.name + "&background=0D9488&color=fff";
+                    }}
+                  />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">{member.name}</h3>
+                <div className="text-teal-600 font-medium mb-3">{member.role}</div>
+                <p className="text-slate-600 dark:text-slate-400 text-sm">{member.bio}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </Section>
   );
 };
 
-// ... (ContactPage, Dashboard, LoginPage, Camera Icon helper remain same as previous version)
 const ContactPage = () => {
   const [formState, setFormState] = useState('idle'); 
   const handleSubmit = (e) => {
@@ -361,29 +435,29 @@ const ContactPage = () => {
           <div className="space-y-6">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-teal-100 dark:bg-teal-900/30 rounded-full flex items-center justify-center text-teal-600">
-                <Phone className="w-6 h-6" />
+                <Icons.Phone className="w-6 h-6" />
               </div>
               <div>
                 <div className="font-semibold text-slate-900 dark:text-white">Phone</div>
-                <div className="text-slate-600 dark:text-slate-400">{BRAND.contact.phone}</div>
+                <div className="text-slate-600 dark:text-slate-400">{brandData.contact.phone}</div>
               </div>
             </div>
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-teal-100 dark:bg-teal-900/30 rounded-full flex items-center justify-center text-teal-600">
-                <Mail className="w-6 h-6" />
+                <Icons.Mail className="w-6 h-6" />
               </div>
               <div>
                 <div className="font-semibold text-slate-900 dark:text-white">Email</div>
-                <div className="text-slate-600 dark:text-slate-400">{BRAND.contact.email}</div>
+                <div className="text-slate-600 dark:text-slate-400">{brandData.contact.email}</div>
               </div>
             </div>
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-teal-100 dark:bg-teal-900/30 rounded-full flex items-center justify-center text-teal-600">
-                <MapPin className="w-6 h-6" />
+                <Icons.MapPin className="w-6 h-6" />
               </div>
               <div>
                 <div className="font-semibold text-slate-900 dark:text-white">Office</div>
-                <div className="text-slate-600 dark:text-slate-400">{BRAND.contact.address}</div>
+                <div className="text-slate-600 dark:text-slate-400">{brandData.contact.address}</div>
               </div>
             </div>
           </div>
@@ -392,7 +466,7 @@ const ContactPage = () => {
           {formState === 'success' ? (
             <div className="text-center py-12">
               <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Check className="w-8 h-8" />
+                <Icons.Check className="w-8 h-8" />
               </div>
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Message Sent!</h3>
               <p className="text-slate-600 dark:text-slate-400 mt-2">We will get back to you within 24 hours.</p>
@@ -438,7 +512,7 @@ const Dashboard = ({ user, logout }) => (
     <div className="flex justify-between items-center mb-8">
       <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Welcome, {user.name}</h1>
       <Button variant="outline" onClick={logout} className="flex items-center gap-2">
-        <LogOut className="w-4 h-4" /> Logout
+        <Icons.LogOut className="w-4 h-4" /> Logout
       </Button>
     </div>
     {user.role === 'client' ? (
@@ -450,7 +524,7 @@ const Dashboard = ({ user, logout }) => (
               {[{ date: "Oct 24", action: "Weekly Inspection Completed", status: "Report Ready" }, { date: "Oct 20", action: "Electricity Bill Paid (₹1,240)", status: "Success" }, { date: "Oct 15", action: "Garden Cleaning", status: "Completed" }].map((item, i) => (
                 <div key={i} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
                   <div className="flex items-center gap-3">
-                    <div className="bg-teal-100 dark:bg-teal-900 text-teal-600 p-2 rounded-full"><Check className="w-4 h-4" /></div>
+                    <div className="bg-teal-100 dark:bg-teal-900 text-teal-600 p-2 rounded-full"><Icons.Check className="w-4 h-4" /></div>
                     <div><div className="font-medium text-slate-900 dark:text-white">{item.action}</div><div className="text-xs text-slate-500">{item.date}</div></div>
                   </div>
                   <span className="text-xs font-bold text-teal-600 bg-teal-50 dark:bg-teal-900/50 px-2 py-1 rounded">{item.status}</span>
@@ -471,8 +545,8 @@ const Dashboard = ({ user, logout }) => (
     ) : (
       <div className="grid md:grid-cols-2 gap-8">
         <Card>
-          <h3 className="font-bold text-lg mb-4 flex items-center gap-2 text-slate-900 dark:text-white"><Upload className="w-5 h-5" /> Upload Assets</h3>
-          <div className="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-8 text-center"><ImageIcon className="w-12 h-12 mx-auto text-slate-400 mb-4" /><p className="text-slate-600 dark:text-slate-300 font-medium">Drag & Drop Logos</p></div>
+          <h3 className="font-bold text-lg mb-4 flex items-center gap-2 text-slate-900 dark:text-white"><Icons.Upload className="w-5 h-5" /> Upload Assets</h3>
+          <div className="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-8 text-center"><Icons.Image className="w-12 h-12 mx-auto text-slate-400 mb-4" /><p className="text-slate-600 dark:text-slate-300 font-medium">Drag & Drop Logos</p></div>
         </Card>
       </div>
     )}
@@ -499,18 +573,24 @@ const LoginPage = ({ onLogin }) => {
   );
 };
 
-const Camera = ({className}) => (<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>);
-
 export default function SafeHandsApp() {
   const [currentPage, setCurrentPage] = useState('home');
-  const [darkMode, setDarkMode] = useState(false);
+  // Initialize darkMode to true by default
+  const [darkMode, setDarkMode] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const isDark = localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    // Check if user has explicitly set a preference, otherwise default to dark
+    const storedTheme = localStorage.getItem('theme');
+    const isDark = storedTheme ? storedTheme === 'dark' : true; 
+    
     setDarkMode(isDark);
-    if (isDark) document.documentElement.classList.add('dark');
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
     
     // Dynamically set Favicon
     const link = document.querySelector("link[rel~='icon']");
@@ -524,8 +604,13 @@ export default function SafeHandsApp() {
 
   const toggleTheme = () => {
     setDarkMode(!darkMode);
-    if (!darkMode) { document.documentElement.classList.add('dark'); localStorage.setItem('theme', 'dark'); } 
-    else { document.documentElement.classList.remove('dark'); localStorage.setItem('theme', 'light'); }
+    if (!darkMode) { 
+      document.documentElement.classList.add('dark'); 
+      localStorage.setItem('theme', 'dark'); 
+    } else { 
+      document.documentElement.classList.remove('dark'); 
+      localStorage.setItem('theme', 'light'); 
+    }
   };
 
   const navigate = (page) => { setCurrentPage(page); setMenuOpen(false); window.scrollTo(0,0); };
@@ -539,14 +624,14 @@ export default function SafeHandsApp() {
               <div className="flex items-center cursor-pointer gap-3" onClick={() => navigate('home')}>
                 {/* Logo Image */}
                 <div className="w-10 h-10 rounded-lg overflow-hidden shadow-lg border border-slate-200 dark:border-slate-700">
-                   <img src={BRAND.assets.logo} alt="SafeHands Logo" className="w-full h-full object-cover" 
+                   <img src={brandData.assets.logo} alt="SafeHands Logo" className="w-full h-full object-cover" 
                         onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
                    {/* Fallback to Icon if logo missing */}
                    <div className="hidden w-full h-full bg-slate-900 dark:bg-white items-center justify-center">
-                      <Home className="text-white dark:text-slate-900 w-6 h-6" />
+                      <Icons.Home className="text-white dark:text-slate-900 w-6 h-6" />
                    </div>
                 </div>
-                <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">SafeHands</h1>
+                <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">{brandData.name}</h1>
               </div>
               <div className="hidden md:flex items-center space-x-8">
                 {['Home', 'Services', 'Pricing', 'About', 'Contact'].map((item) => (
@@ -554,12 +639,12 @@ export default function SafeHandsApp() {
                 ))}
               </div>
               <div className="hidden md:flex items-center space-x-4">
-                <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">{darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}</button>
+                <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">{darkMode ? <Icons.Sun className="w-5 h-5" /> : <Icons.Moon className="w-5 h-5" />}</button>
                 {user ? <Button variant="primary" onClick={() => navigate('dashboard')}>Dashboard</Button> : <Button variant="outline" className="px-4 py-2" onClick={() => navigate('login')}>Login</Button>}
               </div>
               <div className="md:hidden flex items-center gap-4">
-                <button onClick={toggleTheme} className="p-2">{darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}</button>
-                <button onClick={() => setMenuOpen(!menuOpen)} className="p-2">{menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}</button>
+                <button onClick={toggleTheme} className="p-2">{darkMode ? <Icons.Sun className="w-5 h-5" /> : <Icons.Moon className="w-5 h-5" />}</button>
+                <button onClick={() => setMenuOpen(!menuOpen)} className="p-2">{menuOpen ? <Icons.X className="w-6 h-6" /> : <Icons.Menu className="w-6 h-6" />}</button>
               </div>
             </div>
           </div>
@@ -588,26 +673,68 @@ export default function SafeHandsApp() {
         <footer className="bg-slate-900 text-slate-300 py-12 border-t border-slate-800">
           <div className="max-w-7xl mx-auto px-4 md:px-8 grid md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">
-               <div className="flex items-center gap-2 mb-4 text-white"><Home className="w-6 h-6" /><span className="text-xl font-bold">SafeHands</span></div>
-               <p className="max-w-xs text-slate-400 mb-6">{BRAND.tagline}</p>
+               {/* --- ENLARGED LOGO IN FOOTER --- */}
+               {/* Maximized to show logo contents fully */}
+               <div className="flex flex-col items-start gap-4 mb-6 w-full">
+                 <div className="w-full max-w-[280px] aspect-square rounded-xl overflow-hidden shadow-lg border-2 border-slate-700 bg-white relative">
+                    <img 
+                      src={brandData.assets.footlogo} 
+                      alt="SafeHands Logo" 
+                      className="w-full h-full object-contain p-4" 
+                      onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} 
+                    />
+                    <div className="hidden w-full h-full items-center justify-center">
+                       <Icons.Home className="text-slate-900 w-20 h-20" />
+                    </div>
+                 </div>
+                 <div>
+                   <span className="text-3xl font-bold text-white block mt-2">{brandData.name}</span>
+                   <span className="text-sm text-slate-400 uppercase tracking-wider block mt-1">Trusted Property Care</span>
+                 </div>
+               </div>
+               
+               <p className="max-w-md text-slate-400 mb-6 leading-relaxed text-lg">{brandData.tagline}</p>
+               <div className="flex gap-4">
+                 {brandData.socials.map((social, i) => (
+                   <div key={i} className="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center hover:bg-teal-600 transition-colors cursor-pointer text-sm font-bold shadow-sm hover:shadow-md" title={social.platform}>{social.label}</div>
+                 ))}
+               </div>
             </div>
             <div>
-              <h4 className="text-white font-bold mb-4">Services</h4>
-              <ul className="space-y-2 text-sm">
-                <li className="hover:text-teal-400 cursor-pointer" onClick={() => navigate('services')}>Home Inspection</li>
-                <li className="hover:text-teal-400 cursor-pointer" onClick={() => navigate('services')}>Vendor Management</li>
+              <h4 className="text-white font-bold mb-6 text-xl">Services</h4>
+              <ul className="space-y-4 text-slate-400 text-lg">
+                <li className="hover:text-teal-400 cursor-pointer transition-colors flex items-center gap-2" onClick={() => navigate('services')}><span className="w-2 h-2 bg-teal-500 rounded-full"></span> Home Inspection</li>
+                <li className="hover:text-teal-400 cursor-pointer transition-colors flex items-center gap-2" onClick={() => navigate('services')}><span className="w-2 h-2 bg-teal-500 rounded-full"></span> Vendor Management</li>
+                <li className="hover:text-teal-400 cursor-pointer transition-colors flex items-center gap-2" onClick={() => navigate('services')}><span className="w-2 h-2 bg-teal-500 rounded-full"></span> Elderly Support</li>
+                <li className="hover:text-teal-400 cursor-pointer transition-colors flex items-center gap-2" onClick={() => navigate('services')}><span className="w-2 h-2 bg-teal-500 rounded-full"></span> Emergency Visits</li>
               </ul>
             </div>
             <div>
-              <h4 className="text-white font-bold mb-4">Contact</h4>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-center gap-2"><Phone className="w-4 h-4"/> {BRAND.contact.phone}</li>
-                <li className="flex items-center gap-2"><Mail className="w-4 h-4"/> care@safehandsnow.com</li>
+              <h4 className="text-white font-bold mb-6 text-xl">Contact</h4>
+              <ul className="space-y-5 text-slate-400 text-lg">
+                <li className="flex items-center gap-4 group">
+                  <div className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center group-hover:bg-teal-900 transition-colors">
+                    <Icons.Phone className="w-5 h-5 text-teal-500"/>
+                  </div>
+                  {brandData.contact.phone}
+                </li>
+                <li className="flex items-center gap-4 group">
+                  <div className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center group-hover:bg-teal-900 transition-colors">
+                    <Icons.Mail className="w-5 h-5 text-teal-500"/> 
+                  </div>
+                  {brandData.contact.email}
+                </li>
+                <li className="flex items-start gap-4 group">
+                  <div className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center group-hover:bg-teal-900 transition-colors shrink-0 mt-1">
+                    <Icons.MapPin className="w-5 h-5 text-teal-500"/> 
+                  </div>
+                  <span className="max-w-[240px] leading-snug">{brandData.contact.address}</span>
+                </li>
               </ul>
             </div>
           </div>
-          <div className="max-w-7xl mx-auto px-4 md:px-8 mt-12 pt-8 border-t border-slate-800 text-center text-xs text-slate-500">
-            © 2025 SafeHands Property Care. All rights reserved.
+          <div className="max-w-7xl mx-auto px-4 md:px-8 mt-16 pt-8 border-t border-slate-800 text-center text-sm text-slate-500">
+            {brandData.footerText}
           </div>
         </footer>
       </div>
