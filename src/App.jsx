@@ -55,6 +55,7 @@ const SERVICES = [
     title: "Bill & Document Support",
     icon: <FileText className="w-8 h-8 text-teal-600" />,
     desc: "Never miss a utility payment. We handle meter readings, bill payments, and official mail forwarding.",
+    image: "/assets/images/service-vendor.png",
     features: ["Utility Monitoring", "Payment Reminders", "Document Pickup"]
   },
   {
@@ -70,7 +71,7 @@ const SERVICES = [
 const PRICING = [
   {
     name: "CareLite",
-    price: "₹1,499",
+    price: "₹1,999",
     period: "/ month",
     desc: "Essential monthly checks for locked homes.",
     features: ["Monthly Inspection", "Photo/Video Report", "Utility Meter Check", "Mail Collection"],
@@ -78,7 +79,7 @@ const PRICING = [
   },
   {
     name: "CarePlus",
-    price: "₹4,499",
+    price: "₹3,999",
     period: "/ month",
     desc: "Weekly attention for occupied or high-value homes.",
     features: ["Weekly Inspections", "Vendor Coordination", "Priority Support", "Bill Management", "Minor Repair Supervision"],
@@ -86,7 +87,7 @@ const PRICING = [
   },
   {
     name: "CareElite",
-    price: "₹9,999",
+    price: "₹,999",
     period: "/ month",
     desc: "Complete concierge service for total peace of mind.",
     features: ["Unlimited Visits", "Emergency Response", "Full Concierge", "Deep Cleaning (1x/yr)", "Dedicated Manager"],
