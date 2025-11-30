@@ -87,7 +87,7 @@ const PRICING = [
   },
   {
     name: "CareElite",
-    price: "₹,999",
+    price: "₹6,999",
     period: "/ month",
     desc: "Complete concierge service for total peace of mind.",
     features: ["Unlimited Visits", "Emergency Response", "Full Concierge", "Deep Cleaning (1x/yr)", "Dedicated Manager"],
